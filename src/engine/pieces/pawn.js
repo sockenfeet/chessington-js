@@ -11,6 +11,8 @@ export default class Pawn extends Piece {
         const pos = board.findPiece(this);
         const moves = [];
         const dir = this.player === Player.WHITE ? 1:-1;
+
+        // check for open file moves
         const sq1 = Square.at(pos.row + dir, pos.col);
         if (board.onBoard(sq1) && board.isFree(sq1)) {
             moves.push(sq1);
@@ -19,6 +21,17 @@ export default class Pawn extends Piece {
                 moves.push(sq2);
             }
         }
+
+        // check for diagonal takes
+        const squares = [
+            Square.at(pos.row - 1, pos.col + dir),
+            Square.at(pos.row + 1, pos.col + dir),
+        ];
+        squares.filter(board.onBoard).filter(x => {
+            let block = board.getPiece(x);
+            return (block !== undefined && block._isCapturable(this.player));
+        }).forEach(x => moves.push(x));
+
         return moves;
     }
 }

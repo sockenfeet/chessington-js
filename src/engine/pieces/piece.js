@@ -1,7 +1,10 @@
+import Square from "../square";
+
 export default class Piece {
     constructor(player) {
         this.player = player;
         this.hasMoved = false;
+        this.isCapturable = true;
     }
 
     getAvailableMoves(board) {
@@ -11,5 +14,37 @@ export default class Piece {
     moveTo(board, newSquare) {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
+    }
+
+    march(board, dirs) {
+        const moves = [];
+        const pos = board.findPiece(this);
+        dirs.forEach(dir => {
+            let sq = Square.at(pos.row + dir[0], pos.col + dir[1]);
+            while (board.onBoard(sq) && board.isFree(sq)) {
+                moves.push(sq);
+                sq = Square.at(sq.row + dir[0], sq.col + dir[1]);
+            }
+        });
+        return moves;
+    }
+
+    getDiagonalMoves(board) {
+        return this.march(board, [[1,1], [1,-1], [-1,1], [-1,-1]]);
+    }
+
+    getLateralMoves(board) {
+        return this.march(board, [[1,0], [-1,0], [0,1], [0,-1]]);
+    }
+
+    _isCapturable(colour) {
+        return (colour !== this.player && this.isCapturable);
+        // if (board.onBoard(square) && !board.isFree(square)) {
+        //
+        //     if (block.player !== player && block.isCapturable) {
+        //         return true;
+        //     }
+        // }
+        // return false;
     }
 }
