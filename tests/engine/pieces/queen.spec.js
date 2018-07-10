@@ -4,7 +4,7 @@ import Pawn from '../../../src/engine/pieces/pawn';
 import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
-import GameSettings from '../../../src/engine/gameSettings';
+import King from "../../../src/engine/pieces/king";
 
 describe('Queen', () => {
 
@@ -73,4 +73,45 @@ describe('Queen', () => {
 
         moves.should.not.deep.include(Square.at(4, 7));
     });
+
+    it('can take opposing non-king pieces diagonally', () => {
+        const queen = new Queen(Player.WHITE);
+        const opposingPiece = new Pawn(Player.BLACK);
+        board.setPiece(Square.at(4, 4), queen);
+        board.setPiece(Square.at(6, 6), opposingPiece);
+
+        const moves = queen.getAvailableMoves(board);
+        moves.should.deep.include(Square.at(6, 6));
+    });
+
+    it('can take opposing non-king pieces laterally (orthogonally)', () => {
+        const queen = new Queen(Player.WHITE);
+        const opposingPiece = new Pawn(Player.BLACK);
+        board.setPiece(Square.at(4, 4), queen);
+        board.setPiece(Square.at(4, 6), opposingPiece);
+
+        const moves = queen.getAvailableMoves(board);
+        moves.should.deep.include(Square.at(4, 6));
+    });
+
+    it('cannot take opposing king', () => {
+        const queen = new Queen(Player.WHITE);
+        const opposingKing = new King(Player.BLACK);
+        board.setPiece(Square.at(4, 4), queen);
+        board.setPiece(Square.at(6, 6), opposingKing);
+
+        const moves = queen.getAvailableMoves(board);
+        moves.should.not.deep.include(Square.at(6, 6));
+    });
+
+    it('cannot take friendly pieces', () => {
+        const queen = new Queen(Player.WHITE);
+        const friendlyPiece = new Pawn(Player.WHITE);
+        board.setPiece(Square.at(4, 4), queen);
+        board.setPiece(Square.at(4, 6), friendlyPiece);
+
+        const moves = queen.getAvailableMoves(board);
+        moves.should.not.deep.include(Square.at(4, 6));
+    });
+
 });
