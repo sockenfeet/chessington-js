@@ -44,4 +44,8 @@ export default class Board {
             movingPiece.hasMoved = true;
         }
     }
+
+    onBoard(square) {
+        return 0<=square.row && square.row<GameSettings.BOARD_SIZE && 0<=square.col && square.col<GameSettings.BOARD_SIZE;
+    }
 }
