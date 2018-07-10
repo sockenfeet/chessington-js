@@ -24,8 +24,8 @@ export default class Pawn extends Piece {
 
         // check for diagonal takes
         const squares = [
-            Square.at(pos.row - 1, pos.col + dir),
-            Square.at(pos.row + 1, pos.col + dir),
+            Square.at(pos.row + dir, pos.col - 1),
+            Square.at(pos.row + dir, pos.col + 1),
         ];
         squares.filter(board.onBoard).filter(x => {
             let block = board.getPiece(x);
