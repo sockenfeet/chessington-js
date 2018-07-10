@@ -21,9 +21,13 @@ export default class Piece {
         const pos = board.findPiece(this);
         dirs.forEach(dir => {
             let sq = Square.at(pos.row + dir[0], pos.col + dir[1]);
-            while (board.onBoard(sq) && board.isFree(sq)) {
+            while (board.onBoard(sq) && (board.isFree(sq))) {
                 moves.push(sq);
                 sq = Square.at(sq.row + dir[0], sq.col + dir[1]);
+            }
+            if (board.onBoard(sq) && !board.isFree(sq)) {
+                let block = board.getPiece(sq);
+                if (block.isCapturableBy(this.player)) {moves.push(sq)}
             }
         });
         return moves;
@@ -37,11 +41,11 @@ export default class Piece {
         return this.march(board, [[1,0], [-1,0], [0,1], [0,-1]]);
     }
 
-    _isCapturable(colour) {
+    isCapturableBy(colour) {
         return (colour !== this.player && this.isCapturable);
         // if (board.onBoard(square) && !board.isFree(square)) {
         //
-        //     if (block.player !== player && block.isCapturable) {
+        //     if (block.player !== player && block.isCapturableBy) {
         //         return true;
         //     }
         // }

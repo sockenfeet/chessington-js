@@ -29,7 +29,7 @@ export default class Pawn extends Piece {
         ];
         squares.filter(board.onBoard).filter(x => {
             let block = board.getPiece(x);
-            return (block !== undefined && block._isCapturable(this.player));
+            return (block !== undefined && block.isCapturableBy(this.player));
         }).forEach(x => moves.push(x));
 
         return moves;
