@@ -9,13 +9,6 @@ export default class Knight extends Piece {
     getAvailableMoves(board) {
         const pos = board.findPiece(this);
         const knightMoves = [[2,1], [2,-1], [-2,1], [-2,-1], [1,2], [1,-2], [-1,2], [-1,-2]];
-        // const moves = [];
-        // knightMoves.forEach(move => {
-        //     let square = Square.at(pos.row + move[0], pos.col + move[1]);
-        //     if (board.onBoard(square)) {
-        //         moves.push(square)
-        //     }
-        // });
         const moves = [];
         knightMoves.map(move => Square.at(pos.row + move[0], pos.col + move[1]))
             .filter(board.onBoard)
