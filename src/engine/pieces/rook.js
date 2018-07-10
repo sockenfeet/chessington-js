@@ -10,10 +10,17 @@ export default class Rook extends Piece {
     getAvailableMoves(board) {
         const moves = [];
         const pos = board.findPiece(this);
-        for (let i=1; i<GameSettings.BOARD_SIZE; i++) {
-            moves.push(Square.at((pos.row+i)%8, pos.col));
-            moves.push(Square.at(pos.row, (pos.col+i)%8));
-        }
+        const dirs = [[1,0], [-1,0], [0,1], [0,-1]];
+        dirs.forEach(dir => {
+            for (let i = 1; i < GameSettings.BOARD_SIZE; i++) {
+                let sq = Square.at(pos.row + i * dir[0], pos.col + i * dir[1]);
+                if (board.onBoard(sq) && board.isFree(sq)) {
+                    moves.push(sq);
+                } else {
+                    break;
+                }
+            }
+        });
         return moves;
     }
 }
