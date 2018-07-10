@@ -11,9 +11,11 @@ export default class Pawn extends Piece {
         const pos = board.findPiece(this);
         const moves = [];
         const dir = this.player === Player.WHITE ? 1:-1;
-        moves.push(Square.at(pos.row + dir, pos.col));
-        if (!this.hasMoved) {
-            moves.push(Square.at(pos.row + 2*dir, pos.col));
+        if (board.isFree(Square.at(pos.row + dir, pos.col))) {
+            moves.push(Square.at(pos.row + dir, pos.col));
+            if (!this.hasMoved && board.isFree(Square.at(pos.row + 2*dir, pos.col))) {
+                moves.push(Square.at(pos.row + 2*dir, pos.col));
+            }
         }
         return moves;
     }
