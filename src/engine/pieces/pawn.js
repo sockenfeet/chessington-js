@@ -15,6 +15,7 @@ export default class Pawn extends Piece {
 
     moveTo(board, newSquare) {
         const currentSquare = board.findPiece(this);
+        const dir = this.player === Player.WHITE ? 1:-1;
 
         // en passantable
         if (Math.abs(newSquare.row-currentSquare.row) === 2) {
@@ -23,7 +24,7 @@ export default class Pawn extends Piece {
 
         //did we do an en passant?
         if (board.isFree(newSquare) && Math.abs(newSquare.col - currentSquare.col) === 1) {
-            board.setPiece(Square.at(newSquare.row-1, newSquare.col), undefined);
+            board.setPiece(Square.at(newSquare.row-dir, newSquare.col), undefined);
         }
 
         super.moveTo(board, newSquare);
@@ -74,7 +75,7 @@ export default class Pawn extends Piece {
         squares.filter(board.onBoard).filter(square => {
             if (board.isFree(square)) {
                 // check for en passant
-                let maybePawn = board.getPiece(Square.at(square.row-1, square.col));
+                let maybePawn = board.getPiece(Square.at(square.row-dir, square.col));
                 return (maybePawn instanceof Pawn && maybePawn.enPassantable);
             } else {
                 return board.getPiece(square).isCapturableBy(this.player);
