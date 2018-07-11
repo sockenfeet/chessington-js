@@ -68,6 +68,8 @@ function onDrop(source, target) {
     if (!pieceToMove || !pieceToMove.getAvailableMoves(board).some(square => square.equals(toSquare))) {
         return 'snapback';
     }
+    // check for castlng
+    // check for en passant
     pieceToMove.moveTo(board, toSquare);
     updateStatus();
 }

@@ -4,6 +4,7 @@ import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
 import Pawn from "../../../src/engine/pieces/pawn";
+import Rook from "../../../src/engine/pieces/rook";
 
 describe('King', () => {
 
@@ -72,5 +73,63 @@ describe('King', () => {
 
         const moves = king.getAvailableMoves(board);
         moves.should.not.deep.include(Square.at(5, 5));
+    });
+
+    it('can castle on the right', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(4,4), king);
+        board.setPiece(Square.at(4,7), rook);
+
+        const moves = king.getAvailableMoves(board);
+        moves.should.deep.include(Square.at(4,6));
+    });
+
+    it('can castle on the left', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(4,4), king);
+        board.setPiece(Square.at(4,0), rook);
+
+        const moves = king.getAvailableMoves(board);
+        moves.should.deep.include(Square.at(4,2));
+    });
+
+    it('cannot castle after having moved', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(4,4), king);
+        board.setPiece(Square.at(4,7), rook);
+
+        king.moveTo(board,Square.at(5,4));
+        king.moveTo(board,Square.at(4,4));
+
+        const moves = king.getAvailableMoves(board);
+        moves.should.not.deep.include(Square.at(4,6));
+    });
+
+    it('cannot castle after rook having moved', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(4,4), king);
+        board.setPiece(Square.at(4,7), rook);
+
+        rook.moveTo(board,Square.at(5,7));
+        rook.moveTo(board,Square.at(4,7));
+
+        const moves = king.getAvailableMoves(board);
+        moves.should.not.deep.include(Square.at(4,6));
+    });
+
+    it('cannot move through opposing pieces', () => {
+        const king = new King(Player.WHITE);
+        const castle = new Rook(Player.WHITE);
+        const opposingPiece = new Pawn(Player.BLACK);
+        board.setPiece(Square.at(4, 4), king);
+        board.setPiece(Square.at(4, 7), castle);
+        board.setPiece(Square.at(4, 5), opposingPiece);
+
+        const moves = king.getAvailableMoves(board);
+        moves.should.not.deep.include(Square.at(4, 6));
     });
 });
