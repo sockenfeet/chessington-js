@@ -160,6 +160,17 @@ describe('Pawn', () => {
 
             ((board.getPiece(Square.at(0,0))) instanceof Queen).should.be.true;
         });
+
+        it('can en passant', () => {
+            const pawn = new Pawn((Player.BLACK));
+            board.setPiece(Square.at(3,2), pawn);
+            const enemypawn = new Pawn(Player.WHITE);
+            board.setPiece(Square.at(1,1), enemypawn);
+            enemypawn.moveTo(3,1);
+            pawn.moveTo(2,1);
+
+            (board.isFree(Square.at(3,1))).should.be.true;
+        });
     });
 
     it('cannot move if there is a piece in front', () => {
