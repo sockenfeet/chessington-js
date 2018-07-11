@@ -6,6 +6,7 @@ import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
 import Bishop from "../../../src/engine/pieces/bishop";
 import King from "../../../src/engine/pieces/king";
+import Queen from "../../../src/engine/pieces/queen";
 
 describe('Pawn', () => {
 
@@ -73,7 +74,16 @@ describe('Pawn', () => {
 
             const moves = pawn.getAvailableMoves(board);
             moves.should.not.deep.include(Square.at(4,4));
-        })
+        });
+
+        it('can be promoted', () => {
+            const pawn = new Pawn(Player.WHITE);
+            board.setPiece(Square.at(0, 6), pawn);
+            pawn.moveTo(board, Square.at(0, 7));
+
+            ((board.getPiece(Square.at(0,7))) instanceof Queen).should.be.true;
+        });
+
 
     });
 
@@ -141,7 +151,15 @@ describe('Pawn', () => {
 
             const moves = pawn.getAvailableMoves(board);
             moves.should.not.deep.include(Square.at(2,2));
-        })
+        });
+
+        it('can be promoted', () => {
+            const pawn = new Pawn(Player.WHITE);
+            board.setPiece(Square.at(0, 1), pawn);
+            pawn.moveTo(board, Square.at(0, 0));
+
+            ((board.getPiece(Square.at(0,0))) instanceof Queen).should.be.true;
+        });
     });
 
     it('cannot move if there is a piece in front', () => {
