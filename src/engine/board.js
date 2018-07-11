@@ -17,6 +17,7 @@ export default class Board {
     }
 
     setPiece(square, piece) {
+        console.log(`board inserting ${piece} at ${square}`);
         this.board[square.row][square.col] = piece;
     }
 

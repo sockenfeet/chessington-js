@@ -118,7 +118,8 @@ export function createChessBoard() {
             draggable: true,
             position: boardToPositionObject(board),
             onDragStart: onDragStart,
-            onDrop: onDrop
+            onDrop: onDrop,
+            //onSnapEnd: boardToPositionObject(board)
         }
     );
     updateStatus();
