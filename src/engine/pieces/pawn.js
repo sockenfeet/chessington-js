@@ -1,10 +1,18 @@
 import Piece from './piece';
 import Player from '../player';
 import Square from '../square';
+import Queen from './queen';
 
 export default class Pawn extends Piece {
     constructor(player) {
         super(player);
+    }
+
+    moveTo(board, newSquare) {
+        super.moveTo(board, newSquare);
+        if ((this.player === Player.WHITE && newSquare.row === 7) || (this.player === Player.BLACK && newSquare.row === 0)) {
+            board.setPiece(newSquare, new Queen(this.player));
+        }
     }
 
     getAvailableMoves(board) {

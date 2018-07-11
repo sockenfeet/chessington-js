@@ -78,10 +78,10 @@ describe('Pawn', () => {
 
         it('can be promoted', () => {
             const pawn = new Pawn(Player.WHITE);
-            board.setPiece(Square.at(0, 6), pawn);
-            pawn.moveTo(board, Square.at(0, 7));
+            board.setPiece(Square.at(6, 0), pawn);
+            pawn.moveTo(board, Square.at(7, 0));
 
-            ((board.getPiece(Square.at(0,7))) instanceof Queen).should.be.true;
+            ((board.getPiece(Square.at(7, 0))) instanceof Queen).should.be.true;
         });
 
 
@@ -154,8 +154,8 @@ describe('Pawn', () => {
         });
 
         it('can be promoted', () => {
-            const pawn = new Pawn(Player.WHITE);
-            board.setPiece(Square.at(0, 1), pawn);
+            const pawn = new Pawn(Player.BLACK);
+            board.setPiece(Square.at(1, 0), pawn);
             pawn.moveTo(board, Square.at(0, 0));
 
             ((board.getPiece(Square.at(0,0))) instanceof Queen).should.be.true;
