@@ -13,7 +13,9 @@ export default class Piece {
 
     moveTo(board, newSquare) {
         const currentSquare = board.findPiece(this);
+        // const colour = () => {if (this.player === Player.WHITE) {return "white"} else {return "black"}};
         board.movePiece(currentSquare, newSquare);
+        // console.log(`And now I, the ${colour()} ${typeof this} have moved! :D`)
     }
 
     march(board, dirs) {

@@ -17,11 +17,9 @@ export default class King extends Piece {
             // right castle
             case 2:
                 rook = board.getPiece(Square.at(oldSquare.row, oldSquare.col+3));
-                console.log(board.findPiece(rook));
                 board.setPiece(Square.at(oldSquare.row, oldSquare.col+1), rook);
                 board.setPiece(Square.at(oldSquare.row, oldSquare.col+3), undefined);
                 rook.hasMoved = true;
-                console.log(board.findPiece(rook));
                 break;
             // left castle
             case -2:
